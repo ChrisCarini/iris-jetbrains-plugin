@@ -156,7 +156,10 @@ public class IrisNotificationService implements BaseComponent {
       }
       final Message message = filteredMessages.get(0);
       final String application = incident.getApplication();
-      final String subject = message.getSubject().substring(String.valueOf(message.getId()).length()).trim();
+
+      final String messageSubject = message.getSubject();
+      final String subject =
+          messageSubject == null ? "" : messageSubject.substring(String.valueOf(message.getId()).length()).trim();
 
       final String irisNotificationKey = getIrisNotificationKey(incident);
 
@@ -178,27 +181,27 @@ public class IrisNotificationService implements BaseComponent {
         notification.expire();
       }
 
-      // Create a new notification
-      final Notification incidentNotification =
-          IRIS_NOTIFICATION_GROUP.createNotification(IrisMessages.get("iris.notification.title"), application, subject,
-              NotificationType.INFORMATION, null);
-      incidentNotification.addAction(new ClaimIncidentAction(irisClient.getCurrentHostname(), incident.getId(), () -> {
-        incidentNotification.expire();
-        irisIncidentIdToNotificationListMap.remove(irisNotificationKey);
-      }));
-      notificationsToShow.put(irisNotificationKey, incidentNotification);
-    }
+      // Show the notifications in the focused project (if we can determine it, otherwise, try all the projects).
+//      final Project focusedProject = ProjectUtils.getLastFocusedOrOpenedProject();
+//      final List<Project> projects = focusedProject == null ? getActiveProjects() : Collections.singletonList(focusedProject);
+      final List<Project> projects = getActiveProjects();
 
-    // Show the notifications in all the active projects.
-    for (final Project project : getActiveProjects()) {
-      for (final Map.Entry<String, Notification> notificationEntry : notificationsToShow.entrySet()) {
+      for (final Project project : projects) {
         // notify if the project isn't disposed.
         if (!project.isDisposed()) {
-          final Notification notification = notificationEntry.getValue();
-          final String irisNotificationKey = notificationEntry.getKey();
-          final List<Notification> existingNotifications = irisIncidentIdToNotificationListMap.get(irisNotificationKey);
-          notification.notify(project);
-          existingNotifications.add(notification);
+          // Create a new notification
+          final Notification incidentNotification =
+              IRIS_NOTIFICATION_GROUP.createNotification(IrisMessages.get("iris.notification.title"), application,
+                  subject, NotificationType.INFORMATION, null);
+          incidentNotification.addAction(
+              new ClaimIncidentAction(irisClient.getCurrentHostname(), incident.getId(), () -> {
+                for (final Notification notification : irisIncidentIdToNotificationListMap.get(irisNotificationKey)) {
+                  notification.expire();
+                }
+                irisIncidentIdToNotificationListMap.remove(irisNotificationKey);
+              }));
+          incidentNotification.notify(project);
+          existingNotifications.add(incidentNotification);
         }
       }
     }

@@ -1,5 +1,5 @@
-# Iris IntelliJ Plugin
-A plugin to connect to an Iris installation and alert the user to new incidents.
+# Iris JetBrains Plugin
+A plugin for Iris notifications in the JetBrains ecosystem of IDEs.
 
 ## Getting started
 _to-do..._
@@ -15,3 +15,6 @@ NotificationsConfiguration.getNotificationsConfiguration()
 ```
 - Shell scripts for getting a local deploy of Iris running for easier testing
 - The ["Getting started"](#getting-started) section above
+- Option to only show notification in active/focused project vs all projects
+- Better notification when there are multiple incidents at a given time
+- Display more information for a given incident
