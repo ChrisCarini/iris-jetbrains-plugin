@@ -1,0 +1,34 @@
+<idea-plugin>
+  <id>com.chriscarini.jetbrains.iris-jetbrains-plugin</id>
+  <name>Iris</name>
+  <vendor email="jetbrains@chriscarini.com" url="https://jetbrains.chriscarini.com">Chris Carini</vendor>
+
+  <description><![CDATA[
+    A plugin that provides notifications from Iris within the JetBrains ecosystem of IDEs.
+    ]]></description>
+
+  <idea-version since-build="183" until-build="183.*"/>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+  <depends>com.intellij.modules.platform</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <applicationService
+        serviceImplementation="com.chriscarini.jetbrains.iris.plugin.settings.SettingsManager"/>
+    <applicationConfigurable
+        instance="com.chriscarini.jetbrains.iris.plugin.settings.SettingsConfigurable"/>
+  </extensions>
+
+
+  <application-components>
+    <component>
+      <implementation-class>
+        com.chriscarini.jetbrains.iris.plugin.component.IrisNotificationService
+      </implementation-class>
+    </component>
+  </application-components>
+  <actions>
+    <!-- Add your actions here -->
+  </actions>
+</idea-plugin>
