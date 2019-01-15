@@ -63,12 +63,12 @@ public class DefaultIrisClient implements IrisClient {
 
   @NotNull
   @Override
-  public List<Incident> getActiveIncidentsSince(final String target, final long since) {
+  public List<Incident> getActiveIncidentsSince(final String target, final long since, final int maxResults) {
     final String parameters = Incident.RequestParameterBuilder.create()
         .withTarget(target)
         .created(Incident.RequestParameterBuilder.Operator.GE, since)
         .isActive(true)
-        .limitResultsTo(500)
+        .limitResultsTo(maxResults)
         .fetchFields(ACTIVE_INCIDENT_FIELD_NAMES)
         .build();
     return getListFromParameters(IrisConstants.API_INCIDENTS, parameters, IRIS_INCIDENTS_TYPE_TOKEN);

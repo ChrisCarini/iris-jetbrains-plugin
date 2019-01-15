@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.chriscarini.jetbrains'
-version '0.0.2'
+version '0.0.3'
 
 sourceCompatibility = 1.8
 
@@ -23,7 +23,13 @@ intellij {
 }
 patchPluginXml {
   changeNotes """
-        <h4>[0.1.0] - 2019-01-01</h4>
+        <h4>[0.0.3] - 2019-01-15</h4>
+        <h5>Added</h5>
+        <ol><li>Exposing option to limit Incidents API number of results and changing the default to 100 results. See <a href="https://github.com/ChrisCarini/iris-jetbrains-plugin/issues/2">GitHub Issue #1</a> for more info.</li></ol>
+        <h4>[0.0.2] - 2019-01-14</h4>
+        <h5>Fixes</h5>
+        <ol><li>Creation of "Advanced Options" section. See <a href="https://github.com/ChrisCarini/iris-jetbrains-plugin/issues/2">GitHub Issue #2</a> for more info.</li></ol>
+        <h4>[0.0.1] - 2019-01-01</h4>
         <h5>Added</h5>
         <ol><li>Initial release.</li></ol>
         """

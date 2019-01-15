@@ -80,7 +80,8 @@ public class IrisNotificationService implements BaseComponent {
       irisClient.changeCurrentHostname(settings.apiHost);
     }
     final List<Incident> incidents = irisClient.getActiveIncidentsSince(settings.username,
-        lastRequestAt.getAndSet((System.currentTimeMillis() / 1000) - settings.lookbackAmount));
+        lastRequestAt.getAndSet((System.currentTimeMillis() / 1000) - settings.lookbackAmount),
+        settings.incidentResultSize);
     if (!incidents.isEmpty()) {
       // notify current project
       ApplicationManager.getApplication().invokeLater(() -> notifyCurrentProjects(incidents));

@@ -45,6 +45,8 @@ public class SettingsManager implements PersistentStateComponent<SettingsManager
     public int pollingFrequency;
     @SuppressWarnings("WeakerAccess")
     public int lookbackAmount;
+    @SuppressWarnings("WeakerAccess")
+    public int incidentResultSize;
     public boolean hideNotification;
     @SuppressWarnings("WeakerAccess")
     public boolean keepExistingNotification;
@@ -58,6 +60,7 @@ public class SettingsManager implements PersistentStateComponent<SettingsManager
       this.enabled = false;
       this.pollingFrequency = SettingsConfigurable.maxPollingFrequency;
       this.lookbackAmount = SettingsConfigurable.maxLookbackAmount;
+      this.incidentResultSize = SettingsConfigurable.maxIncidentResultSize;
       this.hideNotification = false;
       this.keepExistingNotification = false;
       this.username = "";
@@ -74,15 +77,15 @@ public class SettingsManager implements PersistentStateComponent<SettingsManager
       }
       IrisSettingsState that = (IrisSettingsState) o;
       return enabled == that.enabled && pollingFrequency == that.pollingFrequency
-          && lookbackAmount == that.lookbackAmount && hideNotification == that.hideNotification
-          && keepExistingNotification == that.keepExistingNotification && Objects.equals(username, that.username)
-          && Objects.equals(apiHost, that.apiHost);
+          && lookbackAmount == that.lookbackAmount && incidentResultSize == that.incidentResultSize
+          && hideNotification == that.hideNotification && keepExistingNotification == that.keepExistingNotification
+          && Objects.equals(username, that.username) && Objects.equals(apiHost, that.apiHost);
     }
 
     @Override
     public int hashCode() {
-      return Objects.hash(enabled, pollingFrequency, lookbackAmount, hideNotification, keepExistingNotification,
-          username, apiHost);
+      return Objects.hash(enabled, pollingFrequency, lookbackAmount, incidentResultSize, hideNotification,
+          keepExistingNotification, username, apiHost);
     }
   }
 }

@@ -47,7 +47,7 @@ public interface IrisClient {
    * @return A {@link List} of {@link Incident}'s matching the provided search criteria; empty list otherwise.
    */
   @NotNull
-  List<Incident> getActiveIncidentsSince(final String target, final long since);
+  List<Incident> getActiveIncidentsSince(final String target, final long since, final int maxResults);
 
   /**
    * Claim an Iris incident.

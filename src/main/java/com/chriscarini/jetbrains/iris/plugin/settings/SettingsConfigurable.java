@@ -39,11 +39,13 @@ import org.jetbrains.annotations.Nullable;
 public class SettingsConfigurable implements Configurable {
   protected static final int maxPollingFrequency = 125;
   protected static final int maxLookbackAmount = 240;
+  protected static final int maxIncidentResultSize = 100;
   private final JPanel mainPanel = new JBPanel();
 
   private final JBCheckBox enabledField = new JBCheckBox();
   private final JSlider pollingFrequencySlider = new JSlider(5, maxPollingFrequency);
   private final JSlider lookbackAmountSlider = new JSlider(10, maxLookbackAmount);
+  private final JSlider incidentResultSizeSlider = new JSlider(10, maxIncidentResultSize);
   private final JBCheckBox hideNotificationField = new JBCheckBox();
   private final JBCheckBox keepExistingNotificationField = new JBCheckBox();
   private final JBTextField usernameField = new JBTextField();
@@ -71,15 +73,10 @@ public class SettingsConfigurable implements Configurable {
     mainPanel.setLayout(new VerticalFlowLayout(true, false));
 
     // Setup the sliders
-    pollingFrequencySlider.setMajorTickSpacing(10);
+    configureSlider(pollingFrequencySlider);
     pollingFrequencySlider.setMinorTickSpacing(1);
-    pollingFrequencySlider.setPaintTicks(true);
-    pollingFrequencySlider.setPaintLabels(true);
-    pollingFrequencySlider.setSnapToTicks(true);
-    lookbackAmountSlider.setMajorTickSpacing(10);
-    lookbackAmountSlider.setPaintTicks(true);
-    lookbackAmountSlider.setPaintLabels(true);
-    lookbackAmountSlider.setSnapToTicks(true);
+    configureSlider(lookbackAmountSlider);
+    configureSlider(incidentResultSizeSlider);
 
     // Add a KeyListener to enable / disable the 'check connection' button
     apiHostnameField.addKeyListener(new KeyAdapter() {
@@ -101,7 +98,7 @@ public class SettingsConfigurable implements Configurable {
     irisStatsResult.setContentType(ContentType.TEXT_HTML.getMimeType());
     irisStatsResult.setText(IrisMessages.get("iris.settings.stats.result.default.text"));
 
-    final JComponent advancedPanel = FormBuilder.createFormBuilder()
+    final JComponent advancedOptionsPanel = FormBuilder.createFormBuilder()
         .addLabeledComponent(IrisMessages.get("iris.settings.label.polling.frequency"), pollingFrequencySlider)
         .addTooltip(IrisMessages.get("iris.settings.tooltip.polling.frequency"))
         .addSeparator()
@@ -115,6 +112,9 @@ public class SettingsConfigurable implements Configurable {
         .addSeparator()
         .addLabeledComponent(IrisMessages.get("iris.settings.label.lookback.amount"), lookbackAmountSlider)
         .addTooltip(IrisMessages.get("iris.settings.tooltip.lookback.amount"))
+        .addSeparator()
+        .addLabeledComponent(IrisMessages.get("iris.settings.label.incident.result.size"), incidentResultSizeSlider)
+        .addTooltip(IrisMessages.get("iris.settings.tooltip.incident.result.size"))
         .addSeparator()
         .getPanel();
 
@@ -130,9 +130,8 @@ public class SettingsConfigurable implements Configurable {
         .addLabeledComponent(IrisMessages.get("iris.settings.label.iris.server.stats"), irisStatsResult)
         .addSeparator()
         .addVerticalGap(UIUtil.LARGE_VGAP)
-        .addComponent(
-            new CollapsiblePanel(advancedPanel, true, true, AllIcons.General.ArrowDown, AllIcons.General.ArrowRight,
-                IrisMessages.get("iris.settings.label.advanced.options")))
+        .addComponent(new CollapsiblePanel(advancedOptionsPanel, true, true, AllIcons.General.ArrowDown,
+            AllIcons.General.ArrowRight, IrisMessages.get("iris.settings.label.advanced.options")))
         .getPanel());
   }
 
@@ -150,6 +149,13 @@ public class SettingsConfigurable implements Configurable {
     apiCheckConnectionResult.setIcon(icon);
     apiCheckConnectionResult.setVisible(visible);
     apiCheckConnectionButton.setEnabled(buttonEnabled);
+  }
+
+  private void configureSlider(final JSlider slider) {
+    slider.setMajorTickSpacing(10);
+    slider.setPaintTicks(true);
+    slider.setPaintLabels(true);
+    slider.setSnapToTicks(true);
   }
 
   @Nullable
@@ -182,6 +188,7 @@ public class SettingsConfigurable implements Configurable {
     settingsState.enabled = enabledField.isSelected();
     settingsState.pollingFrequency = pollingFrequencySlider.getValue();
     settingsState.lookbackAmount = lookbackAmountSlider.getValue();
+    settingsState.incidentResultSize = incidentResultSizeSlider.getValue();
     settingsState.hideNotification = hideNotificationField.isSelected();
     settingsState.keepExistingNotification = keepExistingNotificationField.isSelected();
     settingsState.username = usernameField.getText();
@@ -210,6 +217,7 @@ public class SettingsConfigurable implements Configurable {
     enabledField.setSelected(settings.enabled);
     pollingFrequencySlider.setValue(settings.pollingFrequency);
     lookbackAmountSlider.setValue(settings.lookbackAmount);
+    incidentResultSizeSlider.setValue(settings.incidentResultSize);
     hideNotificationField.setSelected(settings.hideNotification);
     keepExistingNotificationField.setSelected(settings.keepExistingNotification);
     usernameField.setText(settings.username);
