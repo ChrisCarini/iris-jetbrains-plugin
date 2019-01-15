@@ -13,11 +13,13 @@ import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.ui.VerticalFlowLayout;
 import com.intellij.ui.AnimatedIcon;
+import com.intellij.ui.CollapsiblePanel;
 import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBPanel;
 import com.intellij.ui.components.JBTextField;
 import com.intellij.util.ui.FormBuilder;
+import com.intellij.util.ui.UIUtil;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -36,12 +38,12 @@ import org.jetbrains.annotations.Nullable;
  */
 public class SettingsConfigurable implements Configurable {
   protected static final int maxPollingFrequency = 125;
-  protected static final int maxLookbackAmount = 125;
+  protected static final int maxLookbackAmount = 240;
   private final JPanel mainPanel = new JBPanel();
 
   private final JBCheckBox enabledField = new JBCheckBox();
   private final JSlider pollingFrequencySlider = new JSlider(5, maxPollingFrequency);
-  private final JSlider lookbackAmountSlider = new JSlider(5, maxLookbackAmount);
+  private final JSlider lookbackAmountSlider = new JSlider(10, maxLookbackAmount);
   private final JBCheckBox hideNotificationField = new JBCheckBox();
   private final JBCheckBox keepExistingNotificationField = new JBCheckBox();
   private final JBTextField usernameField = new JBTextField();
@@ -99,13 +101,9 @@ public class SettingsConfigurable implements Configurable {
     irisStatsResult.setContentType(ContentType.TEXT_HTML.getMimeType());
     irisStatsResult.setText(IrisMessages.get("iris.settings.stats.result.default.text"));
 
-    mainPanel.add(FormBuilder.createFormBuilder()
-        .addLabeledComponent(IrisMessages.get("iris.settings.label.enabled"), enabledField)
+    final JComponent advancedPanel = FormBuilder.createFormBuilder()
         .addLabeledComponent(IrisMessages.get("iris.settings.label.polling.frequency"), pollingFrequencySlider)
         .addTooltip(IrisMessages.get("iris.settings.tooltip.polling.frequency"))
-        .addSeparator()
-        .addLabeledComponent(IrisMessages.get("iris.settings.label.lookback.amount"), lookbackAmountSlider)
-        .addTooltip(IrisMessages.get("iris.settings.tooltip.lookback.amount"))
         .addSeparator()
         .addLabeledComponent(IrisMessages.get("iris.settings.label.automatically.hide.notification"),
             hideNotificationField)
@@ -115,6 +113,14 @@ public class SettingsConfigurable implements Configurable {
             keepExistingNotificationField)
         .addTooltip(IrisMessages.get("iris.settings.tooltip.keep.existing.notification"))
         .addSeparator()
+        .addLabeledComponent(IrisMessages.get("iris.settings.label.lookback.amount"), lookbackAmountSlider)
+        .addTooltip(IrisMessages.get("iris.settings.tooltip.lookback.amount"))
+        .addSeparator()
+        .getPanel();
+
+    mainPanel.add(FormBuilder.createFormBuilder()
+        .addLabeledComponent(IrisMessages.get("iris.settings.label.enabled"), enabledField)
+        .addSeparator()
         .addLabeledComponent(IrisMessages.get("iris.settings.label.username"), usernameField)
         .addTooltip(IrisMessages.get("iris.settings.tooltip.username"))
         .addSeparator()
@@ -122,6 +128,11 @@ public class SettingsConfigurable implements Configurable {
         .addTooltip(IrisMessages.get("iris.settings.tooltip.api.hostname"))
         .addLabeledComponent(apiCheckConnectionButton, apiCheckConnectionResult)
         .addLabeledComponent(IrisMessages.get("iris.settings.label.iris.server.stats"), irisStatsResult)
+        .addSeparator()
+        .addVerticalGap(UIUtil.LARGE_VGAP)
+        .addComponent(
+            new CollapsiblePanel(advancedPanel, true, true, AllIcons.General.ArrowDown, AllIcons.General.ArrowRight,
+                IrisMessages.get("iris.settings.label.advanced.options")))
         .getPanel());
   }
 
