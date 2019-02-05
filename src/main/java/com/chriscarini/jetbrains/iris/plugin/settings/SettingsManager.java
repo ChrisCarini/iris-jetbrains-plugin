@@ -54,9 +54,9 @@ public class SettingsManager implements PersistentStateComponent<SettingsManager
       this.pollingFrequency = SettingsConfigurable.maxPollingFrequency;
       this.lookbackAmount = SettingsConfigurable.maxLookbackAmount;
       this.incidentResultSize = SettingsConfigurable.maxIncidentResultSize;
-      this.notifyFocusedProjectOnly = false;
       this.hideNotification = false;
       this.keepExistingNotification = false;
+      this.notifyFocusedProjectOnly = false;
       this.username = "";
       this.apiHost = "";
     }
