@@ -37,8 +37,11 @@ import org.jetbrains.annotations.Nullable;
  * A {@link Configurable} that provides the user the ability to configure the Iris plugin.
  */
 public class SettingsConfigurable implements Configurable {
+  @SuppressWarnings("WeakerAccess")
   protected static final int maxPollingFrequency = 125;
+  @SuppressWarnings("WeakerAccess")
   protected static final int maxLookbackAmount = 240;
+  @SuppressWarnings("WeakerAccess")
   protected static final int maxIncidentResultSize = 100;
   private final JPanel mainPanel = new JBPanel();
 
@@ -48,6 +51,7 @@ public class SettingsConfigurable implements Configurable {
   private final JSlider incidentResultSizeSlider = new JSlider(10, maxIncidentResultSize);
   private final JBCheckBox hideNotificationField = new JBCheckBox();
   private final JBCheckBox keepExistingNotificationField = new JBCheckBox();
+  private final JBCheckBox notifyFocusedProjectOnlyField = new JBCheckBox();
   private final JBTextField usernameField = new JBTextField();
   private final JBTextField apiHostnameField = new JBTextField();
 
@@ -110,12 +114,15 @@ public class SettingsConfigurable implements Configurable {
             keepExistingNotificationField)
         .addTooltip(IrisMessages.get("iris.settings.tooltip.keep.existing.notification"))
         .addSeparator()
+        .addLabeledComponent(IrisMessages.get("iris.settings.label.notify.focused.project.only"),
+            notifyFocusedProjectOnlyField)
+        .addTooltip(IrisMessages.get("iris.settings.tooltip.notify.focused.project.only"))
+        .addSeparator()
         .addLabeledComponent(IrisMessages.get("iris.settings.label.lookback.amount"), lookbackAmountSlider)
         .addTooltip(IrisMessages.get("iris.settings.tooltip.lookback.amount"))
         .addSeparator()
         .addLabeledComponent(IrisMessages.get("iris.settings.label.incident.result.size"), incidentResultSizeSlider)
         .addTooltip(IrisMessages.get("iris.settings.tooltip.incident.result.size"))
-        .addSeparator()
         .getPanel();
 
     mainPanel.add(FormBuilder.createFormBuilder()
@@ -190,6 +197,7 @@ public class SettingsConfigurable implements Configurable {
     settingsState.lookbackAmount = lookbackAmountSlider.getValue();
     settingsState.incidentResultSize = incidentResultSizeSlider.getValue();
     settingsState.hideNotification = hideNotificationField.isSelected();
+    settingsState.notifyFocusedProjectOnly = notifyFocusedProjectOnlyField.isSelected();
     settingsState.keepExistingNotification = keepExistingNotificationField.isSelected();
     settingsState.username = usernameField.getText();
     settingsState.apiHost = apiHostnameField.getText();
@@ -218,6 +226,7 @@ public class SettingsConfigurable implements Configurable {
     pollingFrequencySlider.setValue(settings.pollingFrequency);
     lookbackAmountSlider.setValue(settings.lookbackAmount);
     incidentResultSizeSlider.setValue(settings.incidentResultSize);
+    notifyFocusedProjectOnlyField.setSelected(settings.notifyFocusedProjectOnly);
     hideNotificationField.setSelected(settings.hideNotification);
     keepExistingNotificationField.setSelected(settings.keepExistingNotification);
     usernameField.setText(settings.username);

@@ -16,7 +16,6 @@ import org.jetbrains.annotations.NotNull;
 public class SettingsManager implements PersistentStateComponent<SettingsManager.IrisSettingsState> {
   private IrisSettingsState myState;
 
-  @SuppressWarnings("WeakerAccess")
   public static SettingsManager getInstance() {
     return ServiceManager.getService(SettingsManager.class);
   }
@@ -39,20 +38,14 @@ public class SettingsManager implements PersistentStateComponent<SettingsManager
    * Representation of the Iris Settings {@link State}.
    */
   public static class IrisSettingsState {
-    @SuppressWarnings("WeakerAccess")
     public boolean enabled;
-    @SuppressWarnings("WeakerAccess")
     public int pollingFrequency;
-    @SuppressWarnings("WeakerAccess")
     public int lookbackAmount;
-    @SuppressWarnings("WeakerAccess")
     public int incidentResultSize;
     public boolean hideNotification;
-    @SuppressWarnings("WeakerAccess")
     public boolean keepExistingNotification;
-    @SuppressWarnings("WeakerAccess")
+    public boolean notifyFocusedProjectOnly;
     public String username;
-    @SuppressWarnings("WeakerAccess")
     public String apiHost;
 
     @SuppressWarnings("WeakerAccess")
@@ -61,6 +54,7 @@ public class SettingsManager implements PersistentStateComponent<SettingsManager
       this.pollingFrequency = SettingsConfigurable.maxPollingFrequency;
       this.lookbackAmount = SettingsConfigurable.maxLookbackAmount;
       this.incidentResultSize = SettingsConfigurable.maxIncidentResultSize;
+      this.notifyFocusedProjectOnly = false;
       this.hideNotification = false;
       this.keepExistingNotification = false;
       this.username = "";
@@ -79,13 +73,14 @@ public class SettingsManager implements PersistentStateComponent<SettingsManager
       return enabled == that.enabled && pollingFrequency == that.pollingFrequency
           && lookbackAmount == that.lookbackAmount && incidentResultSize == that.incidentResultSize
           && hideNotification == that.hideNotification && keepExistingNotification == that.keepExistingNotification
-          && Objects.equals(username, that.username) && Objects.equals(apiHost, that.apiHost);
+          && notifyFocusedProjectOnly == that.notifyFocusedProjectOnly && Objects.equals(username, that.username)
+          && Objects.equals(apiHost, that.apiHost);
     }
 
     @Override
     public int hashCode() {
       return Objects.hash(enabled, pollingFrequency, lookbackAmount, incidentResultSize, hideNotification,
-          keepExistingNotification, username, apiHost);
+          keepExistingNotification, notifyFocusedProjectOnly, username, apiHost);
     }
   }
 }

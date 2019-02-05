@@ -8,6 +8,7 @@ import com.chriscarini.jetbrains.iris.plugin.IrisIcons;
 import com.chriscarini.jetbrains.iris.plugin.action.ClaimIncidentAction;
 import com.chriscarini.jetbrains.iris.plugin.messages.IrisMessages;
 import com.chriscarini.jetbrains.iris.plugin.settings.SettingsManager;
+import com.chriscarini.jetbrains.iris.plugin.utils.ProjectUtils;
 import com.intellij.concurrency.JobScheduler;
 import com.intellij.ide.AppLifecycleListener;
 import com.intellij.notification.Notification;
@@ -22,6 +23,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.util.messages.MessageBusConnection;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -146,7 +148,6 @@ public class IrisNotificationService implements BaseComponent {
   private void notifyCurrentProjects(@NotNull final List<Incident> incidents) {
     final SettingsManager.IrisSettingsState settings = SettingsManager.getInstance().getState();
 
-    final Map<String, Notification> notificationsToShow = new HashMap<>();
     for (final Incident incident : incidents) {
       final String username = SettingsManager.getInstance().getState().username;
       final List<Message> messages = irisClient.getMessages(incident.getId(), username);
@@ -182,10 +183,12 @@ public class IrisNotificationService implements BaseComponent {
         notification.expire();
       }
 
-      // Show the notifications in the focused project (if we can determine it, otherwise, try all the projects).
-//      final Project focusedProject = ProjectUtils.getLastFocusedOrOpenedProject();
-//      final List<Project> projects = focusedProject == null ? getActiveProjects() : Collections.singletonList(focusedProject);
-      final List<Project> projects = getActiveProjects();
+      final List<Project> projects;
+      if (settings.notifyFocusedProjectOnly) {
+        projects = Collections.singletonList(ProjectUtils.getLastFocusedOrOpenedProject());
+      } else {
+        projects = getActiveProjects();
+      }
 
       for (final Project project : projects) {
         // notify if the project isn't disposed.
