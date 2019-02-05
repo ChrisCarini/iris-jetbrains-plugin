@@ -84,6 +84,8 @@ sub_start () {
       -d quay.io/iris/iris:latest
     echo "${CONTAINER_NAME} container started."
   fi
+
+  echo "You should now be able to access Iris at http://localhost:16649"
 }
 
 sub_stop () {
