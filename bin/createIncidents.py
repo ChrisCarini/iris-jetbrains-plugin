@@ -4,13 +4,14 @@ from pprint import pprint
 from irisclient import IrisClient
 
 
-def main(host: str, app: str, key: str, plan: str):
+def main(host: str, app: str, key: str, plan: str, count: int):
     client = IrisClient(app=app, key=key, api_host=host)
-    print("Creating incident...")
-    # create an incident
-    pprint(client.incident(plan, context={'key-foo': 'abc', 'key-bar': 1}), indent=2)
-    # # send an adhoc notification
-    # print(client.notification(role='user', target='alice', priority='urgent', subject='Yo'))
+    for x in range(count):
+        print("Creating incident {} of {}...".format(x + 1, count))
+        # create an incident
+        pprint(client.incident(plan, context={'count': x + 1, 'key-foo': 'abc', 'key-bar': 1}), indent=2)
+        # # send an adhoc notification
+        # print(client.notification(role='user', target='alice', priority='urgent', subject='Yo'))
 
 
 if __name__ == "__main__":
@@ -25,6 +26,7 @@ if __name__ == "__main__":
                         default="a7a9d7657ac8837cd7dfed0b93f4b8b864007724d7fa21422c24f4ff0adb2e49", required=False)
     parser.add_argument('--app', help='The application to use for the client', default="Autoalerts", required=False)
     parser.add_argument('--plan', help='The plan to create an incident against', required=True)
+    parser.add_argument('-c', '--count', help='The number of incidents to create', type=int, default=1)
     arguments = parser.parse_args()
 
     # show values #
@@ -34,4 +36,4 @@ if __name__ == "__main__":
     print("Key: {}{}".format("*" * (len(key) - 5), key[-5:]))
     print("Plan Name: %s" % arguments.plan)
 
-    main(arguments.host, arguments.app, arguments.key, arguments.plan)
+    main(arguments.host, arguments.app, arguments.key, arguments.plan, arguments.count)
