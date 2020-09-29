@@ -1,6 +1,6 @@
 plugins {
   id 'java'
-  id 'org.jetbrains.intellij' version '0.3.12'
+  id 'org.jetbrains.intellij' version '0.4.5'
 }
 
 group 'com.chriscarini.jetbrains'
@@ -17,12 +17,15 @@ dependencies {
 }
 
 intellij {
-  version '2018.3.2'
+  version '191.5849.21'
   plugins[]
   pluginName 'Iris'
 }
 patchPluginXml {
   changeNotes """
+        <h4>[0.0.4] - 2019-01-24</h4>
+        <h5>Added</h5>
+        <ol><li>Prepare for 2019.1 release (based off of build 191.5849.21).</li></ol>
         <h4>[0.0.3] - 2019-01-15</h4>
         <h5>Added</h5>
         <ol><li>Exposing option to limit Incidents API number of results and changing the default to 100 results. See <a href="https://github.com/ChrisCarini/iris-jetbrains-plugin/issues/2">GitHub Issue #1</a> for more info.</li></ol>

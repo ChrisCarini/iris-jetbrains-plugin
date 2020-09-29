@@ -6,6 +6,7 @@ import com.chriscarini.jetbrains.iris.client.model.Incident;
 import com.chriscarini.jetbrains.iris.client.model.Message;
 import com.chriscarini.jetbrains.iris.plugin.IrisIcons;
 import com.chriscarini.jetbrains.iris.plugin.action.ClaimIncidentAction;
+import com.chriscarini.jetbrains.iris.plugin.action.MultipleIncidentsAction;
 import com.chriscarini.jetbrains.iris.plugin.messages.IrisMessages;
 import com.chriscarini.jetbrains.iris.plugin.settings.SettingsManager;
 import com.chriscarini.jetbrains.iris.plugin.utils.ProjectUtils;
@@ -147,6 +148,24 @@ public class IrisNotificationService implements BaseComponent {
    */
   private void notifyCurrentProjects(@NotNull final List<Incident> incidents) {
     final SettingsManager.IrisSettingsState settings = SettingsManager.getInstance().getState();
+    final List<Project> projects;
+    if (settings.notifyFocusedProjectOnly) {
+      projects = Collections.singletonList(ProjectUtils.getLastFocusedOrOpenedProject());
+    } else {
+      projects = getActiveProjects();
+    }
+
+    if (incidents.size() > 2) {
+      for (final Project project : projects) {
+        // Create a new notification
+        final Notification incidentNotification =
+            IRIS_NOTIFICATION_GROUP.createNotification("Iris", "Multiple Notifications Received!", null,
+                NotificationType.INFORMATION, null);
+        incidentNotification.addAction(new MultipleIncidentsAction(irisClient.getCurrentHostname(), incidents));
+        incidentNotification.notify(project);
+      }
+      return;
+    }
 
     for (final Incident incident : incidents) {
       final String username = SettingsManager.getInstance().getState().username;
@@ -183,13 +202,6 @@ public class IrisNotificationService implements BaseComponent {
         notification.expire();
       }
 
-      final List<Project> projects;
-      if (settings.notifyFocusedProjectOnly) {
-        projects = Collections.singletonList(ProjectUtils.getLastFocusedOrOpenedProject());
-      } else {
-        projects = getActiveProjects();
-      }
-
       for (final Project project : projects) {
         // notify if the project isn't disposed.
         if (!project.isDisposed()) {
@@ -216,7 +228,7 @@ public class IrisNotificationService implements BaseComponent {
    * @param incident The Iris {@link Incident} to obtain the key for.
    * @return The {@link String} representation of the key for the Iris {@link Incident}.
    */
-  private String getIrisNotificationKey(Incident incident) {
+  private String getIrisNotificationKey(final Incident incident) {
     return String.format("IRIS_INCIDENT_%s", incident.getId()); //NON-NLS
   }
 
