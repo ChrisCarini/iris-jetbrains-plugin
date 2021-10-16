@@ -4,6 +4,7 @@ import com.intellij.icons.AllIcons;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.ui.LayeredIcon;
 import com.intellij.util.IconUtil;
+
 import javax.swing.*;
 
 
@@ -11,7 +12,7 @@ import javax.swing.*;
  * Icons for Iris
  */
 public final class IrisIcons {
-  public static final Icon Iris = IconLoader.getIcon("/icons/iris.png");
+  public static final Icon Iris = IconLoader.getIcon("/icons/iris.png",IrisIcons.class);
 
   /**
    * The Iris icon with a green check mark on top in the lower right corner.

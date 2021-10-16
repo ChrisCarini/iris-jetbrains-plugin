@@ -6,7 +6,6 @@ import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationAction;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.ex.ActionUtil;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.ui.DialogBuilder;
@@ -15,9 +14,10 @@ import com.intellij.openapi.ui.VerticalFlowLayout;
 import com.intellij.ui.components.JBPanel;
 import com.intellij.ui.components.labels.LinkLabel;
 import com.intellij.util.ui.FormBuilder;
-import java.util.Collection;
-import javax.swing.*;
 import org.jetbrains.annotations.NotNull;
+
+import javax.swing.*;
+import java.util.Collection;
 
 
 public class MultipleIncidentsAction extends NotificationAction {
@@ -45,7 +45,7 @@ public class MultipleIncidentsAction extends NotificationAction {
             new LinkLabel<>(String.format("Claim %s", incident.getId()), IrisIcons.IrisClaim, (aSource, aLinkData) -> {
               final AnAction action = new ClaimIncidentAction(this.baseHostname, aLinkData.getId(), null);
               action.getTemplatePresentation().setEnabledAndVisible(true);
-              ActionUtil.performActionDumbAwareWithCallbacks(action, e, DataContext.EMPTY_CONTEXT);
+              ActionUtil.performActionDumbAwareWithCallbacks(action, e);
               dialogBuilder.getDialogWrapper().close(DialogWrapper.OK_EXIT_CODE);
             }, incident);
         fb.addComponent(foo);

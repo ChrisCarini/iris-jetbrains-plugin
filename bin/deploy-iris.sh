@@ -4,7 +4,7 @@ BIN_NAME=$(basename "$0")
 COMMAND_NAME=$1
 SUB_COMMAND_NAME=$2
 
-sub_help () {
+sub_help() {
   echo "Usage: $BIN_NAME <command>"
   echo
   echo "Commands:"
@@ -15,7 +15,7 @@ sub_help () {
   echo "   help             This help message"
 }
 
-sub_start () {
+sub_start() {
   if ! [[ -x "$(command -v docker)" ]]; then
     echo '[ERROR]: docker is not installed. Please install docker before proceeding!' >&2
     exit 1
@@ -39,16 +39,15 @@ sub_start () {
   MYSQL_PASSWORD=${MYSQL_PASSWORD:-password}
   echo "Using MySQL root password of: ${MYSQL_PASSWORD}"
 
-
   # Create a MySQL instance specifically for Iris, should one not exist
   DOCKER_CONTAINER_NAME_MYSQL_IRIS=mysql_iris
   CONTAINER_NAME=${DOCKER_CONTAINER_NAME_MYSQL_IRIS}
   if [[ ! "$(docker ps -q -f name=^/${CONTAINER_NAME}$)" ]]; then
     echo "${CONTAINER_NAME} container does exist..."
     if [[ "$(docker ps -q -f status=exited -f name=^/${CONTAINER_NAME}$)" ]]; then
-        echo "${CONTAINER_NAME} container in exited state, removing..."
-        docker rm ${CONTAINER_NAME}
-        echo "${CONTAINER_NAME} container removed."
+      echo "${CONTAINER_NAME} container in exited state, removing..."
+      docker rm ${CONTAINER_NAME}
+      echo "${CONTAINER_NAME} container removed."
     fi
     echo "Starting ${CONTAINER_NAME} container..."
     docker run \
@@ -68,14 +67,14 @@ sub_start () {
   if [[ ! "$(docker ps -q -f name=^/${CONTAINER_NAME}$)" ]]; then
     echo "${CONTAINER_NAME} container does exist..."
     if [[ "$(docker ps -q -f status=exited -f name=^/${CONTAINER_NAME}$)" ]]; then
-        echo "${CONTAINER_NAME} container in exited state, removing..."
-        docker rm ${CONTAINER_NAME}
-        echo "${CONTAINER_NAME} container removed."
+      echo "${CONTAINER_NAME} container in exited state, removing..."
+      docker rm ${CONTAINER_NAME}
+      echo "${CONTAINER_NAME} container removed."
     fi
     echo "Starting ${CONTAINER_NAME} container..."
     docker run \
-      --name iris \
-      --link mysql_iris:mysql \
+      --name "${DOCKER_CONTAINER_NAME_IRIS}" \
+      --link "${DOCKER_CONTAINER_NAME_MYSQL_IRIS}:mysql" \
       -e DOCKER_DB_BOOTSTRAP=1 \
       -e IRIS_CFG_DB_USER=root \
       -e IRIS_CFG_DB_PASSWORD=${MYSQL_PASSWORD} \
@@ -83,19 +82,27 @@ sub_start () {
       -p 16649:16649 \
       -d quay.io/iris/iris:latest
     echo "${CONTAINER_NAME} container started."
+
+    # Create the file needed for `/healthcheck` endpoint
+    docker exec -it "${DOCKER_CONTAINER_NAME_IRIS}" /bin/bash -c 'echo "GOOD" > /tmp/status'
+
   fi
 
+  echo "==============================================================="
   echo "You should now be able to access Iris at http://localhost:16649"
+  echo
+  echo "    Username: demo"
+  echo "    Password: demo"
 }
 
-sub_stop () {
+sub_stop() {
   echo "Stopping containers..."
   docker stop iris
   docker stop mysql_iris
   echo "Containers stopped."
 }
 
-sub_remove () {
+sub_remove() {
   sub_stop
   echo "Removing containers..."
   docker rm iris
@@ -103,21 +110,21 @@ sub_remove () {
   echo "Containers removed."
 }
 
-sub_stats () {
+sub_stats() {
   docker stats iris mysql_iris
 }
 
 case $COMMAND_NAME in
-  "" | "-h" | "--help")
+"" | "-h" | "--help")
+  sub_help
+  ;;
+*)
+  shift
+  sub_${COMMAND_NAME} $@
+  if [ $? = 127 ]; then
+    echo "'$COMMAND_NAME' is not a known command or has errors." >&2
     sub_help
-    ;;
-  *)
-    shift
-    sub_${COMMAND_NAME} $@
-    if [ $? = 127 ]; then
-      echo "'$COMMAND_NAME' is not a known command or has errors." >&2
-      sub_help
-      exit 1
-    fi
-    ;;
+    exit 1
+  fi
+  ;;
 esac
