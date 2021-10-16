@@ -34,11 +34,11 @@ public class DefaultIrisClient implements IrisClient {
   private static final Logger LOG = Logger.getInstance(DefaultIrisClient.class);
 
   // @formatter:off
-  private static final TypeToken<List<Incident>> IRIS_INCIDENTS_TYPE_TOKEN = new TypeToken<List<Incident>>() {};
-  private static final TypeToken<List<Message>> IRIS_MESSAGES_TYPE_TOKEN = new TypeToken<List<Message>>() {};
-  private static final TypeToken<Stats> IRIS_STATS_TYPE_TOKEN = new TypeToken<Stats>() {};
+  private static final TypeToken<List<Incident>> IRIS_INCIDENTS_TYPE_TOKEN = new TypeToken<>() {};
+  private static final TypeToken<List<Message>> IRIS_MESSAGES_TYPE_TOKEN = new TypeToken<>() {};
+  private static final TypeToken<Stats> IRIS_STATS_TYPE_TOKEN = new TypeToken<>() {};
   @SuppressWarnings("unused") // TODO - remove `unused` annotation once we can claim an incident via the Iris API...
-  private static final TypeToken<ClaimResponse> IRIS_INCIDENT_CLAIM_TYPE_TOKEN = new TypeToken<ClaimResponse>() {};
+  private static final TypeToken<ClaimResponse> IRIS_INCIDENT_CLAIM_TYPE_TOKEN = new TypeToken<>() {};
   // @formatter:on
 
   private static final Gson GSON = new Gson();
@@ -47,7 +47,7 @@ public class DefaultIrisClient implements IrisClient {
   private final int maxRedirectFollow;
   private String baseUrl;
   private CloseableHttpClient httpClient;
-  private RedirectStrategy redirectStrategy;
+  private final RedirectStrategy redirectStrategy;
 
   public DefaultIrisClient(final String baseUrl) {
     this(baseUrl, IrisConstants.TIMEOUT, IrisConstants.MAX_REDIRECT, DefaultRedirectStrategy.INSTANCE);

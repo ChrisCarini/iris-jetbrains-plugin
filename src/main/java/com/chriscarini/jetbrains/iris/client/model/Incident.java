@@ -90,7 +90,7 @@ public class Incident {
     private long incidentId;
     private String target = null;
     private boolean active;
-    private List<String> fieldNames = new ArrayList<>(Collections.singletonList(TARGET));
+    private final List<String> fieldNames = new ArrayList<>(Collections.singletonList(TARGET));
     private int limit;
     private long created = 0;
     private Operator createdOperator = Operator.EQ;
