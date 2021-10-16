@@ -35,13 +35,13 @@ public class MultipleIncidentsAction extends NotificationAction {
     ApplicationManager.getApplication().invokeLater(() -> {
       final DialogBuilder dialogBuilder = new DialogBuilder(e.getProject());
 
-      final JPanel centerPanel = new JBPanel();
+      final JPanel centerPanel = new JBPanel<>();
       centerPanel.setLayout(new VerticalFlowLayout(true, false));
 
       final FormBuilder fb = FormBuilder.createFormBuilder();
       for (final Incident incident : incidents) {
         // TODO: Have this working, let's get the layout cleaned up a bit more and maybe provide more information to the user
-        final LinkLabel foo =
+        final LinkLabel<Incident> foo =
             new LinkLabel<>(String.format("Claim %s", incident.getId()), IrisIcons.IrisClaim, (aSource, aLinkData) -> {
               final AnAction action = new ClaimIncidentAction(this.baseHostname, aLinkData.getId(), null);
               action.getTemplatePresentation().setEnabledAndVisible(true);

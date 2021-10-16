@@ -44,7 +44,7 @@ public class SettingsConfigurable implements Configurable {
   protected static final int maxLookbackAmount = 240;
   @SuppressWarnings("WeakerAccess")
   protected static final int maxIncidentResultSize = 100;
-  private final JPanel mainPanel = new JBPanel();
+  private final JPanel mainPanel = new JBPanel<>();
 
   private final JBCheckBox enabledField = new JBCheckBox();
   private final JSlider pollingFrequencySlider = new JSlider(5, maxPollingFrequency);
@@ -87,11 +87,8 @@ public class SettingsConfigurable implements Configurable {
     apiHostnameField.addKeyListener(new KeyAdapter() {
       @Override
       public void keyReleased(final KeyEvent e) {
-        if ("".equals(apiHostnameField.getText())) {
-          setApiCheckConnectionResult("", null, true, false);
-        } else {
-          setApiCheckConnectionResult("", null, true, true);
-        }
+        final boolean buttonEnabled = "".equals(apiHostnameField.getText());
+        setApiCheckConnectionResult("", null, true, !buttonEnabled);
       }
     });
 
@@ -151,7 +148,7 @@ public class SettingsConfigurable implements Configurable {
    * @param visible       {@code true} if the result should be visible, {@code false} otherwise.
    * @param buttonEnabled {@code true} if the test button should be enabled, {@code false} otherwise.
    */
-  private void setApiCheckConnectionResult(@Nls(capitalization = Nls.Capitalization.Title) @NotNull final String text,
+  private void setApiCheckConnectionResult(@Nls(capitalization = Nls.Capitalization.Sentence) @NotNull final String text,
       @Nullable final Icon icon, final boolean visible, final boolean buttonEnabled) {
     apiCheckConnectionResult.setText(text);
     apiCheckConnectionResult.setIcon(icon);
