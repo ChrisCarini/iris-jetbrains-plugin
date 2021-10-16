@@ -10,6 +10,7 @@
 - Update Dependabot to include Gradle dependencies.
 - Adding GitHub build & release workflows.
 - Adding JetBrains Qodana (experimental, testing only)
+- Adding Gradle wrapper files
 
 ### Changed
 - Upgrading Gradle to 6.6
