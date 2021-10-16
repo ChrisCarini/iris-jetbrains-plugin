@@ -3,32 +3,39 @@
   <name>Iris</name>
   <vendor email="jetbrains@chriscarini.com" url="https://jetbrains.chriscarini.com">Chris Carini</vendor>
 
-  <description><![CDATA[
-    A plugin that provides notifications from Iris within the JetBrains ecosystem of IDEs.
-    ]]></description>
-
-  <idea-version since-build="183" until-build="183.*"/>
-
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
        on how to target different products -->
   <depends>com.intellij.modules.platform</depends>
 
   <extensions defaultExtensionNs="com.intellij">
     <applicationService
+        serviceImplementation="com.chriscarini.jetbrains.iris.plugin.component.IrisNotificationService"
+        preload="true"/>
+    <applicationService
         serviceImplementation="com.chriscarini.jetbrains.iris.plugin.settings.SettingsManager"/>
     <applicationConfigurable
         instance="com.chriscarini.jetbrains.iris.plugin.settings.SettingsConfigurable"/>
+
+    <!--
+    We need two notification groups because we can no longer switch
+    between `displayType`s (we want user to be able to select `BALLOON`
+    and `STICKY_BALLOON` in settings).
+    -->
+    <notificationGroup
+            id="iris.notification.group.balloon"
+            bundle="messages.iris"
+            key="iris.notification.service.notification.group.name"
+            displayType="BALLOON"
+            isLogByDefault="true"
+            icon="com.chriscarini.jetbrains.iris.plugin.IrisIcons.Iris"
+    />
+    <notificationGroup
+            id="iris.notification.group.sticky_balloon"
+            bundle="messages.iris"
+            key="iris.notification.service.notification.group.name"
+            displayType="STICKY_BALLOON"
+            isLogByDefault="true"
+            icon="com.chriscarini.jetbrains.iris.plugin.IrisIcons.Iris"
+    />
   </extensions>
-
-
-  <application-components>
-    <component>
-      <implementation-class>
-        com.chriscarini.jetbrains.iris.plugin.component.IrisNotificationService
-      </implementation-class>
-    </component>
-  </application-components>
-  <actions>
-    <!-- Add your actions here -->
-  </actions>
 </idea-plugin>

@@ -20,17 +20,18 @@ import com.intellij.ui.components.JBPanel;
 import com.intellij.ui.components.JBTextField;
 import com.intellij.util.ui.FormBuilder;
 import com.intellij.util.ui.UIUtil;
+import org.apache.http.entity.ContentType;
+import org.jetbrains.annotations.Nls;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import javax.swing.*;
-import org.apache.http.entity.ContentType;
-import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 
 /**
@@ -268,14 +269,14 @@ public class SettingsConfigurable implements Configurable {
               final IrisClient tempIrisClient = new DefaultIrisClient(apiHostnameField.getText());
               if (tempIrisClient.testConnection()) {
                 setApiCheckConnectionResult(IrisMessages.get("iris.settings.test.server.connection.connection.success"),
-                    AllIcons.Process.State.GreenOK, true, true);
+                    AllIcons.General.InspectionsOK, true, true);
                 final Stats stats = tempIrisClient.getStats();
                 if (stats != null) {
                   irisStatsResult.setText(stats.toHtml());
                 }
               } else {
                 setApiCheckConnectionResult(IrisMessages.get("iris.settings.test.server.connection.connection.failed"),
-                    AllIcons.Process.State.RedExcl, true, true);
+                    AllIcons.General.ExclMark, true, true);
                 irisStatsResult.setText("");
               }
               // Cancel any existing jobs to clear the text and re-create (reset clear timer)

@@ -4,7 +4,6 @@ import com.chriscarini.jetbrains.iris.client.DefaultIrisClient;
 import com.chriscarini.jetbrains.iris.client.IrisClient;
 import com.chriscarini.jetbrains.iris.client.model.Incident;
 import com.chriscarini.jetbrains.iris.client.model.Message;
-import com.chriscarini.jetbrains.iris.plugin.IrisIcons;
 import com.chriscarini.jetbrains.iris.plugin.action.ClaimIncidentAction;
 import com.chriscarini.jetbrains.iris.plugin.action.MultipleIncidentsAction;
 import com.chriscarini.jetbrains.iris.plugin.messages.IrisMessages;
@@ -13,43 +12,42 @@ import com.chriscarini.jetbrains.iris.plugin.utils.ProjectUtils;
 import com.intellij.concurrency.JobScheduler;
 import com.intellij.ide.AppLifecycleListener;
 import com.intellij.notification.Notification;
-import com.intellij.notification.NotificationDisplayType;
 import com.intellij.notification.NotificationGroup;
+import com.intellij.notification.NotificationGroupManager;
 import com.intellij.notification.NotificationType;
+import com.intellij.openapi.Disposable;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.components.BaseComponent;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
+import com.intellij.openapi.util.Disposer;
 import com.intellij.util.messages.MessageBusConnection;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 
 
 /**
  * Application Service managing the Iris Notifications.
  */
-public class IrisNotificationService implements BaseComponent {
+public class IrisNotificationService implements Disposable {
   @NonNls
   private static final Logger LOG = Logger.getInstance(IrisNotificationService.class);
 
-  private final NotificationGroup IRIS_NOTIFICATION_GROUP;
+  public static final String IRIS_NOTIFICATION_GROUP_ID_BALLOON = "iris.notification.group.balloon";
+  public static final String IRIS_NOTIFICATION_GROUP_ID_STICKY_BALLOON = "iris.notification.group.sticky_balloon";
 
   private final Map<String, List<Notification>> irisIncidentIdToNotificationListMap = new HashMap<>();
   private IrisClient irisClient;
   private int currentPollingFrequency = 900; // in seconds
-  private ScheduledFuture<?> irisPollingJob = null;
+  private static ScheduledFuture<?> irisPollingJob = null;
   private AtomicLong lastRequestAt; // in seconds
   private final Runnable irisPollingRunnable = () -> {
     LOG.debug("Starting Iris Polling execution...");
@@ -60,7 +58,7 @@ public class IrisNotificationService implements BaseComponent {
     if (settings.pollingFrequency != currentPollingFrequency) {
       LOG.debug(String.format("Iris polling frequency changed from %s sec to %s sec; updating...", // NON-NLS
           currentPollingFrequency, settings.pollingFrequency));
-      irisPollingJob.cancel(false);
+      cancelJobs();
       currentPollingFrequency = settings.pollingFrequency;
       scheduleIrisPollingJob();
       return;
@@ -92,27 +90,12 @@ public class IrisNotificationService implements BaseComponent {
   };
 
   public IrisNotificationService() {
+    Disposer.register(ApplicationManager.getApplication(), this);
+
     final SettingsManager.IrisSettingsState settings = SettingsManager.getInstance().getState();
-    IRIS_NOTIFICATION_GROUP =
-        new NotificationGroup(IrisMessages.get("iris.notification.service.notification.group.name"),
-            settings.hideNotification ? NotificationDisplayType.BALLOON : NotificationDisplayType.STICKY_BALLOON, true,
-            null, IrisIcons.Iris);
     lastRequestAt = new AtomicLong((System.currentTimeMillis() / 1000) - settings.lookbackAmount);
     irisClient = new DefaultIrisClient(settings.apiHost);
-  }
-
-  public static IrisNotificationService getInstance() {
-    return ApplicationManager.getApplication().getComponent(IrisNotificationService.class);
-  }
-
-  /**
-   * Initialize the component by setting the current polling frequency, scheduling the polling job, and registering
-   * the job cancellation upon application shutdown.
-   */
-  @Override
-  public void initComponent() {
     LOG.debug("Initializing Iris Notification Service...");
-    final SettingsManager.IrisSettingsState settings = SettingsManager.getInstance().getState();
     currentPollingFrequency = settings.pollingFrequency;
     scheduleIrisPollingJob();
 
@@ -124,12 +107,17 @@ public class IrisNotificationService implements BaseComponent {
     connection.subscribe(AppLifecycleListener.TOPIC, new AppLifecycleListener() {
       @Override
       public void appWillBeClosed(final boolean isRestart) {
-        if (irisPollingJob != null) {
-          irisPollingJob.cancel(false);
-        }
+        cancelJobs();
       }
     });
     LOG.debug("Initializing Iris Notification Service complete.");
+  }
+
+  private static NotificationGroup getNotificationGroup() {
+    final SettingsManager.IrisSettingsState settings = SettingsManager.getInstance().getState();
+    return NotificationGroupManager.getInstance().getNotificationGroup(
+        settings.hideNotification ? IRIS_NOTIFICATION_GROUP_ID_BALLOON : IRIS_NOTIFICATION_GROUP_ID_STICKY_BALLOON
+    );
   }
 
   /**
@@ -144,6 +132,7 @@ public class IrisNotificationService implements BaseComponent {
   /**
    * Notify the currently open projects of the provided {@link Incident}s. If there are no incidents, or active projects
    * then this method has no effect.
+   *
    * @param incidents The {@link List} of {@link Incident}s to notify
    */
   private void notifyCurrentProjects(@NotNull final List<Incident> incidents) {
@@ -158,11 +147,11 @@ public class IrisNotificationService implements BaseComponent {
     if (incidents.size() > 2) {
       for (final Project project : projects) {
         // Create a new notification
-        final Notification incidentNotification =
-            IRIS_NOTIFICATION_GROUP.createNotification("Iris", "Multiple Notifications Received!", null,
-                NotificationType.INFORMATION, null);
-        incidentNotification.addAction(new MultipleIncidentsAction(irisClient.getCurrentHostname(), incidents));
-        incidentNotification.notify(project);
+        getNotificationGroup()
+            .createNotification("Iris", "", NotificationType.INFORMATION)
+            .setSubtitle("Multiple notifications received!")
+            .addAction(new MultipleIncidentsAction(irisClient.getCurrentHostname(), incidents))
+            .notify(project);
       }
       return;
     }
@@ -206,16 +195,16 @@ public class IrisNotificationService implements BaseComponent {
         // notify if the project isn't disposed.
         if (!project.isDisposed()) {
           // Create a new notification
-          final Notification incidentNotification =
-              IRIS_NOTIFICATION_GROUP.createNotification(IrisMessages.get("iris.notification.title"), application,
-                  subject, NotificationType.INFORMATION, null);
-          incidentNotification.addAction(
-              new ClaimIncidentAction(irisClient.getCurrentHostname(), incident.getId(), () -> {
-                for (final Notification notification : irisIncidentIdToNotificationListMap.get(irisNotificationKey)) {
-                  notification.expire();
-                }
-                irisIncidentIdToNotificationListMap.remove(irisNotificationKey);
-              }));
+          final Notification incidentNotification = getNotificationGroup()
+              .createNotification(IrisMessages.get("iris.notification.title"), subject, NotificationType.INFORMATION)
+              .setSubtitle(application)
+              .addAction(
+                  new ClaimIncidentAction(irisClient.getCurrentHostname(), incident.getId(), () -> {
+                    for (final Notification notification : irisIncidentIdToNotificationListMap.get(irisNotificationKey)) {
+                      notification.expire();
+                    }
+                    irisIncidentIdToNotificationListMap.remove(irisNotificationKey);
+                  }));
           incidentNotification.notify(project);
           existingNotifications.add(incidentNotification);
         }
@@ -225,6 +214,7 @@ public class IrisNotificationService implements BaseComponent {
 
   /**
    * Helper method to get the notification key for an Iris {@link Incident}.
+   *
    * @param incident The Iris {@link Incident} to obtain the key for.
    * @return The {@link String} representation of the key for the Iris {@link Incident}.
    */
@@ -234,9 +224,23 @@ public class IrisNotificationService implements BaseComponent {
 
   /**
    * Helper method to get the list of active projects.
+   *
    * @return The {@link List} of active {@link Project}s.
    */
   private List<Project> getActiveProjects() {
     return Arrays.asList(ProjectManager.getInstance().getOpenProjects());
+  }
+
+  private static void cancelJobs() {
+    if (irisPollingJob != null) {
+      LOG.debug("Cancel any existing irisPolling job...");
+      irisPollingJob.cancel(false);
+    }
+  }
+
+  @Override
+  public void dispose() {
+    LOG.debug("Disposing IrisNotificationService...");
+    cancelJobs();
   }
 }
