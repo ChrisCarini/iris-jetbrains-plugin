@@ -4,6 +4,19 @@
 
 ## [Unreleased]
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [0.0.5] - 2021-10-16
+### Added
 - Restructured file to extract all variables into file.
 - Adding ability to publish to different channels based on SemVer pre-release labels.
 - Adding [JetBrains Plugin Signing](https://plugins.jetbrains.com/docs/intellij/plugin-signing.html)
@@ -18,14 +31,8 @@
 - Upgrading IntelliJ Gradle plugin to 1.2.0
 - Upgrading `requests` Python package for `createIncidents.py` script
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 - Fixed `deploy-iris.sh` script to startup `iris` with a `GOOD` `/healthcheck` endpoint.
-
-### Security
 
 ## [0.0.4] - 2019-01-24
 ### Added
