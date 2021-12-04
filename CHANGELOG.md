@@ -6,7 +6,6 @@
 ### Added
 
 ### Changed
-- Upgrading IntelliJ to 2021.3
 
 ### Deprecated
 
@@ -15,6 +14,10 @@
 ### Fixed
 
 ### Security
+
+## [0.1.0] - 2021-12-04
+### Changed
+- Upgrading IntelliJ to 2021.3
 
 ## [0.0.5] - 2021-10-16
 ### Added
