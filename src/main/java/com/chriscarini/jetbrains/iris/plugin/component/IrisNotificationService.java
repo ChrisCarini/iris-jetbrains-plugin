@@ -4,6 +4,7 @@ import com.chriscarini.jetbrains.iris.client.DefaultIrisClient;
 import com.chriscarini.jetbrains.iris.client.IrisClient;
 import com.chriscarini.jetbrains.iris.client.model.Incident;
 import com.chriscarini.jetbrains.iris.client.model.Message;
+import com.chriscarini.jetbrains.iris.plugin.IrisIcons;
 import com.chriscarini.jetbrains.iris.plugin.action.ClaimIncidentAction;
 import com.chriscarini.jetbrains.iris.plugin.action.MultipleIncidentsAction;
 import com.chriscarini.jetbrains.iris.plugin.messages.IrisMessages;
@@ -149,6 +150,7 @@ public class IrisNotificationService implements Disposable {
         // Create a new notification
         getNotificationGroup()
             .createNotification("Iris", "", NotificationType.INFORMATION)
+            .setIcon(IrisIcons.Iris)
             .setSubtitle("Multiple notifications received!")
             .addAction(new MultipleIncidentsAction(irisClient.getCurrentHostname(), incidents))
             .notify(project);
@@ -197,6 +199,7 @@ public class IrisNotificationService implements Disposable {
           // Create a new notification
           final Notification incidentNotification = getNotificationGroup()
               .createNotification(IrisMessages.get("iris.notification.title"), subject, NotificationType.INFORMATION)
+              .setIcon(IrisIcons.Iris)
               .setSubtitle(application)
               .addAction(
                   new ClaimIncidentAction(irisClient.getCurrentHostname(), incident.getId(), () -> {
