@@ -1,7 +1,7 @@
 # Iris JetBrains Plugin
 
 <!-- Plugin description -->
-A plugin that provides notifications from [Iris](https://github.com/linkedin/iris) within the JetBrains ecosystem of IDEs.
+A plugin for JetBrains IDEs providing notifications from [Iris](https://github.com/linkedin/iris) within the JetBrains ecosystem of IDEs.
 <!-- Plugin description end -->
 
 ## Development Notes
