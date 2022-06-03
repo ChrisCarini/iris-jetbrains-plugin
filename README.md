@@ -11,8 +11,8 @@ A plugin for JetBrains IDEs providing notifications from [Iris](https://github.c
 - Make use of the scripts in the `/bin` directory.
   - Quick Start:
     ```shell
-    ./init.sh
-    ./deploy-iris.sh start
+    ./mkvenv.sh
+    ./iris.sh start
     sleep 15
     python createIncidents.py --host http://localhost:16649 --plan demo-test-foo
     ```

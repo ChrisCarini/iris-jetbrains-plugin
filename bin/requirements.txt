@@ -1,3 +1,2 @@
 irisclient==1.2.1
-requests==2.26.0
-pip>=21.3
+pip-chill==1.0.1
