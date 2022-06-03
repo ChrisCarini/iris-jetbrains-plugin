@@ -7,12 +7,11 @@ By default, the above command will create an incident for the `foo` user.
 Set the `username` to `foo` in the IDE to receive these notifications.
 """
 import argparse
+
 from irisclient import IrisClient
-from optparse import Values
-from typing import List, Tuple
 
 
-def main(arguments: Tuple[Values, List[str]]) -> None:
+def main(arguments: argparse.Namespace) -> None:
     print(f"Base Hostname: {arguments.host}")
     print(f"Application:   {arguments.app}")
     print(f"Key:           *****{arguments.key[-5:]}")
