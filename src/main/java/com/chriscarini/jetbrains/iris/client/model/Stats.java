@@ -43,25 +43,25 @@ public class Stats {
   private static final DecimalFormat DF = new DecimalFormat("#.##", new DecimalFormatSymbols(Locale.US));
 
   @SerializedName("median_seconds_to_claim_last_week") //NON-NLS
-  private List<Map<String, Double>> medianSecondsToClaimLastWeek;
+  List<Map<String, Double>> medianSecondsToClaimLastWeek;
   @SerializedName("pct_incidents_claimed_last_week") //NON-NLS
-  private List<Map<String, Double>> pctIncidentsClaimedLastWeek;
+  List<Map<String, Double>> pctIncidentsClaimedLastWeek;
   @SerializedName("total_active_users") //NON-NLS
-  private List<Map<String, Double>> totalActiveUsers;
+  List<Map<String, Double>> totalActiveUsers;
   @SerializedName("total_applications") //NON-NLS
-  private List<Map<String, Double>> totalApplications;
+  List<Map<String, Double>> totalApplications;
   @SerializedName("total_high_priority_incidents_last_week") //NON-NLS
-  private List<Map<String, Double>> totalHighPriorityIncidentsLastWeek;
+  List<Map<String, Double>> totalHighPriorityIncidentsLastWeek;
   @SerializedName("total_incidents") //NON-NLS
-  private List<Map<String, Double>> totalIncidents;
+  List<Map<String, Double>> totalIncidents;
   @SerializedName("total_incidents_last_week") //NON-NLS
-  private List<Map<String, Double>> totalIncidentsLastWeek;
+  List<Map<String, Double>> totalIncidentsLastWeek;
   @SerializedName("total_messages_sent") //NON-NLS
-  private List<Map<String, Double>> totalMessagesSent;
+  List<Map<String, Double>> totalMessagesSent;
   @SerializedName("total_messages_sent_last_week") //NON-NLS
-  private List<Map<String, Double>> totalMessagesSentLastWeek;
+  List<Map<String, Double>> totalMessagesSentLastWeek;
   @SerializedName("total_plans") //NON-NLS
-  private List<Map<String, Double>> totalPlans;
+  List<Map<String, Double>> totalPlans;
 
   @Override
   public String toString() {
@@ -95,6 +95,9 @@ public class Stats {
   }
 
   private String valuesToRowCells(final List<Map<String, Double>> listOfMaps) {
+    if (listOfMaps == null) {
+      return "N/A";
+    }
     return listOfMaps.stream().map(a -> {
       // There should only be a single value in the result, and if it is null, treat it as a zero.
       if (a.values().toArray()[0] == null) {
