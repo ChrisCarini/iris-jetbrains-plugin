@@ -20,6 +20,7 @@ import com.intellij.ui.components.JBPanel;
 import com.intellij.ui.components.JBTextField;
 import com.intellij.util.ui.FormBuilder;
 import com.intellij.util.ui.UIUtil;
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.entity.ContentType;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
@@ -198,7 +199,7 @@ public class SettingsConfigurable implements Configurable {
     settingsState.notifyFocusedProjectOnly = notifyFocusedProjectOnlyField.isSelected();
     settingsState.keepExistingNotification = keepExistingNotificationField.isSelected();
     settingsState.username = usernameField.getText();
-    settingsState.apiHost = apiHostnameField.getText();
+    settingsState.apiHost = StringUtils.stripEnd(apiHostnameField.getText(), "/");
 
     return settingsState;
   }
@@ -228,7 +229,7 @@ public class SettingsConfigurable implements Configurable {
     hideNotificationField.setSelected(settings.hideNotification);
     keepExistingNotificationField.setSelected(settings.keepExistingNotification);
     usernameField.setText(settings.username);
-    apiHostnameField.setText(settings.apiHost);
+    apiHostnameField.setText(StringUtils.stripEnd(settings.apiHost, "/"));
   }
 
   @NotNull
