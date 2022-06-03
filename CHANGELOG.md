@@ -6,17 +6,22 @@
 ### Added
 
 ### Changed
-- Upgrading IntelliJ to 2022.1.2
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
-- Fix stacktrace when testing Iris host connection (changed in [linkedin/iris#515] on 2019-05-01) (#24)
-- Strip trailing slash in hostname (#47)
 
 ### Security
+
+## [0.2.1] - 2022-06-03
+### Changed
+- Upgrading IntelliJ to 2022.1.2
+
+### Fixed
+- Fix stacktrace when testing Iris host connection (changed in [linkedin/iris#515] on 2019-05-01) (#24)
+- Strip trailing slash in hostname (#47)
 
 ## [0.2.0] - 2022-04-14
 ### Changed
