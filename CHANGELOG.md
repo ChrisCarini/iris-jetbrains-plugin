@@ -3,10 +3,10 @@
 # IntelliJ Platform Plugin Template Changelog
 
 ## [Unreleased]
+
 ### Added
 
 ### Changed
-- Upgrading IntelliJ from 2023.1.1 to 2023.1.2
 
 ### Deprecated
 
@@ -16,37 +16,50 @@
 
 ### Security
 
+## [1.0.2] - 2023-05-17
+
+### Changed
+- Upgrading IntelliJ from 2023.1.1 to 2023.1.2
+
 ## [1.0.1] - 2023-04-29
+
 ### Changed
 - Upgrading IntelliJ from 2023.1 to 2023.1.1
 
 ## [1.0.0] - 2023-03-29
+
 ### Changed
 - Upgrading IntelliJ from 2022.3.3 to 2023.1.0
 
 ## [0.3.3] - 2023-03-13
+
 ### Changed
 - Upgrading IntelliJ from 2022.3.2 to 2022.3.3
 
 ## [0.3.2] - 2023-02-04
+
 ### Changed
 - Upgrading IntelliJ from 2022.3.1 to 2022.3.2
 
 ## [0.3.1] - 2022-12-28
+
 ### Changed
 - Upgrading IntelliJ from 2022.3 to 2022.3.1
 
 ## [0.3.0] - 2022-12-28
 
 ## [0.2.3] - 2022-11-28
+
 ### Changed
 - Upgrading IntelliJ from 2022.2 to 2022.2.4
 
 ## [0.2.2] - 2022-07-29
+
 ### Changed
 - Upgrading IntelliJ to 2022.2
 
 ## [0.2.1] - 2022-06-03
+
 ### Changed
 - Upgrading IntelliJ to 2022.1.2
 
@@ -55,14 +68,17 @@
 - Strip trailing slash in hostname (#47)
 
 ## [0.2.0] - 2022-04-14
+
 ### Changed
 - Upgrading IntelliJ to 2022.1
 
 ## [0.1.0] - 2021-12-04
+
 ### Changed
 - Upgrading IntelliJ to 2021.3
 
 ## [0.0.5] - 2021-10-16
+
 ### Added
 - Restructured file to extract all variables into file.
 - Adding ability to publish to different channels based on SemVer pre-release labels.
@@ -82,17 +98,40 @@
 - Fixed `deploy-iris.sh` script to startup `iris` with a `GOOD` `/healthcheck` endpoint.
 
 ## [0.0.4] - 2019-01-24
+
 ### Added
 - Prepare for 2019.1 release (based off of build 191.5849.21).
 
 ## [0.0.3] - 2019-01-15
+
 ### Added
 - Exposing option to limit Incidents API number of results and changing the default to 100 results. See <a href="https://github.com/ChrisCarini/iris-jetbrains-plugin/issues/2">GitHub Issue #1</a> for more info.
 
 ## [0.0.2] - 2019-01-14
+
 ### Fixed
 - Creation of "Advanced Options" section. See <a href="https://github.com/ChrisCarini/iris-jetbrains-plugin/issues/2">GitHub Issue #2</a> for more info.
 
 ## [0.0.1] - 2019-01-01
+
 ### Added
 - Initial release.
+
+[Unreleased]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v1.0.1...v1.0.2
+[1.0.1]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v1.0.0...v1.0.1
+[1.0.0]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v0.3.3...v1.0.0
+[0.3.3]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v0.3.2...v0.3.3
+[0.3.2]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v0.3.1...v0.3.2
+[0.3.1]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v0.3.0...v0.3.1
+[0.3.0]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v0.2.3...v0.3.0
+[0.2.3]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v0.2.2...v0.2.3
+[0.2.2]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v0.2.1...v0.2.2
+[0.2.1]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v0.2.0...v0.2.1
+[0.2.0]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v0.0.5...v0.1.0
+[0.0.5]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v0.0.4...v0.0.5
+[0.0.4]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v0.0.3...v0.0.4
+[0.0.3]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v0.0.2...v0.0.3
+[0.0.2]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v0.0.1...v0.0.2
+[0.0.1]: https://github.com/ChrisCarini/iris-jetbrains-plugin/commits/v0.0.1
