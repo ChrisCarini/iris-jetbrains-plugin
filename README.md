@@ -4,6 +4,7 @@
 [![JetBrains IntelliJ Plugins](https://img.shields.io/jetbrains/plugin/v/18137-iris?label=Latest%20Plugin%20Release&style=flat-square)](https://plugins.jetbrains.com/plugin/18137-iris)
 [![JetBrains IntelliJ Plugins](https://img.shields.io/jetbrains/plugin/r/rating/18137-iris?style=flat-square)](https://plugins.jetbrains.com/plugin/18137-iris)
 [![JetBrains IntelliJ Plugins](https://img.shields.io/jetbrains/plugin/d/18137-iris?style=flat-square)](https://plugins.jetbrains.com/plugin/18137-iris)
+[![All Contributors](https://img.shields.io/github/all-contributors/ChrisCarini/iris-jetbrains-plugin?color=ee8449&style=flat-square)](#contributors)
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/ChrisCarini/iris-jetbrains-plugin/build.yml?branch=main&logo=GitHub&style=flat-square)](https://github.com/ChrisCarini/iris-jetbrains-plugin/actions/workflows/build.yml)
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/ChrisCarini/iris-jetbrains-plugin/compatibility.yml?branch=main&label=IntelliJ%20Plugin%20Compatibility&logo=GitHub&style=flat-square)](https://github.com/ChrisCarini/iris-jetbrains-plugin/actions/workflows/compatibility.yml)
 
@@ -33,3 +34,14 @@ A plugin for JetBrains IDEs providing notifications from [Iris](https://github.c
 
 Feel free to submit a PR for any of this [repositories issues](https://github.com/ChrisCarini/iris-jetbrains-plugin/issues) - or anything else, just make sure you include
 adequate details in the request.
+
+## Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
