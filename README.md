@@ -44,6 +44,7 @@ adequate details in the request.
   <tbody>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/ChrisCarini"><img src="https://avatars.githubusercontent.com/u/6374067?v=4?s=100" width="100px;" alt="Chris Carini"/><br /><sub><b>Chris Carini</b></sub></a><br /><a href="#bug-ChrisCarini" title="Bug reports">🐛</a> <a href="#code-ChrisCarini" title="Code">💻</a> <a href="#doc-ChrisCarini" title="Documentation">📖</a> <a href="#example-ChrisCarini" title="Examples">💡</a> <a href="#ideas-ChrisCarini" title="Ideas, Planning, & Feedback">🤔</a> <a href="#maintenance-ChrisCarini" title="Maintenance">🚧</a> <a href="#question-ChrisCarini" title="Answering Questions">💬</a> <a href="#review-ChrisCarini" title="Reviewed Pull Requests">👀</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/jrgp"><img src="https://avatars.githubusercontent.com/u/472066?v=4?s=100" width="100px;" alt="Joe Gillotti"/><br /><sub><b>Joe Gillotti</b></sub></a><br /><a href="#ideas-jrgp" title="Ideas, Planning, & Feedback">🤔</a> <a href="#question-jrgp" title="Answering Questions">💬</a> <a href="#research-jrgp" title="Research">🔬</a></td>
     </tr>
   </tbody>
 </table>
