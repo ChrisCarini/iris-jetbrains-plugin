@@ -9,8 +9,7 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <applicationService
-        serviceImplementation="com.chriscarini.jetbrains.iris.plugin.component.IrisNotificationService"
-        preload="true"/>
+        serviceImplementation="com.chriscarini.jetbrains.iris.plugin.component.IrisNotificationService"/>
     <applicationService
         serviceImplementation="com.chriscarini.jetbrains.iris.plugin.settings.SettingsManager"/>
     <applicationConfigurable
