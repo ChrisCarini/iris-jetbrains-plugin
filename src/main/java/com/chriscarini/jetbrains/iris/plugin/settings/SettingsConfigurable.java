@@ -260,8 +260,8 @@ public class SettingsConfigurable implements Configurable {
 
       ProgressManager.getInstance()
           .run(new Task.Backgroundable(null,
-              IrisMessages.get("iris.settings.test.server.connection.checking.iris.connection"), true,
-              PerformInBackgroundOption.ALWAYS_BACKGROUND) {
+              IrisMessages.get("iris.settings.test.server.connection.checking.iris.connection"), true
+          ) {
             @Override
             public void run(@NotNull final ProgressIndicator indicator) {
               final IrisClient tempIrisClient = new DefaultIrisClient(apiHostnameField.getText());
