@@ -13,7 +13,10 @@
     <applicationService
         serviceImplementation="com.chriscarini.jetbrains.iris.plugin.settings.SettingsManager"/>
     <applicationConfigurable
-        instance="com.chriscarini.jetbrains.iris.plugin.settings.SettingsConfigurable"/>
+        instance="com.chriscarini.jetbrains.iris.plugin.settings.SettingsConfigurable"
+        bundle="messages.iris"
+    />
+
 
     <!--
     We need two notification groups because we can no longer switch

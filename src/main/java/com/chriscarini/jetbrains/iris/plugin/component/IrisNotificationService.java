@@ -90,6 +90,7 @@ public class IrisNotificationService implements Disposable {
     }
   };
 
+  @SuppressWarnings("this-escape")
   public IrisNotificationService() {
     Disposer.register(ApplicationManager.getApplication(), this);
 
