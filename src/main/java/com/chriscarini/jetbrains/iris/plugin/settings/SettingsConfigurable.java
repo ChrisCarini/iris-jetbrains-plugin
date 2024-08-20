@@ -20,6 +20,7 @@ import com.intellij.ui.components.JBPanel;
 import com.intellij.ui.components.JBTextField;
 import com.intellij.util.ui.FormBuilder;
 import com.intellij.util.ui.UIUtil;
+import java.awt.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.ContentType;
 import org.jetbrains.annotations.Nls;
@@ -136,7 +137,10 @@ public class SettingsConfigurable implements Configurable {
         .addLabeledComponent(IrisMessages.get("iris.settings.label.iris.server.stats"), irisStatsResult)
         .addSeparator()
         .addVerticalGap(UIUtil.LARGE_VGAP)
-        .addComponent(new CollapsiblePanel(advancedOptionsPanel, true, true, AllIcons.General.ArrowDown,
+        // TODO(ChrisCarini) - Below throws `Caused by: java.awt.HeadlessException`; see below for details:
+        //    - https://youtrack.jetbrains.com/issue/IJPL-58642/2023.3-java.awt.HeadlessException-is-thrown-while-building-searchable-options-in-headless-mode
+        //  The below ternary operator is a hack workaround to avoid the `java.awt.HeadlessException` in headless mode.
+        .addComponent(GraphicsEnvironment.isHeadless() ? new JLabel() : new CollapsiblePanel(advancedOptionsPanel, true, true, AllIcons.General.ArrowDown,
             AllIcons.General.ArrowRight, IrisMessages.get("iris.settings.label.advanced.options")))
         .getPanel());
   }
