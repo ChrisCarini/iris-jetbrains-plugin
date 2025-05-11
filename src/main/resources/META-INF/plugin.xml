@@ -15,6 +15,7 @@
     <applicationConfigurable
         instance="com.chriscarini.jetbrains.iris.plugin.settings.SettingsConfigurable"
         bundle="messages.iris"
+        key="iris.settings.display.name.iris.configuration"
     />
 
 
@@ -29,7 +30,6 @@
             key="iris.notification.service.notification.group.name"
             displayType="BALLOON"
             isLogByDefault="true"
-            icon="com.chriscarini.jetbrains.iris.plugin.IrisIcons.Iris"
     />
     <notificationGroup
             id="iris.notification.group.sticky_balloon"
@@ -37,7 +37,6 @@
             key="iris.notification.service.notification.group.name"
             displayType="STICKY_BALLOON"
             isLogByDefault="true"
-            icon="com.chriscarini.jetbrains.iris.plugin.IrisIcons.Iris"
     />
   </extensions>
 </idea-plugin>
