@@ -45,7 +45,7 @@ public class MultipleIncidentsAction extends NotificationAction {
             new LinkLabel<>(String.format("Claim %s", incident.getId()), IrisIcons.IrisClaim, (aSource, aLinkData) -> {
               final AnAction action = new ClaimIncidentAction(this.baseHostname, aLinkData.getId(), null);
               action.getTemplatePresentation().setEnabledAndVisible(true);
-              ActionUtil.performActionDumbAwareWithCallbacks(action, e);
+              ActionUtil.performAction(action, e);
               dialogBuilder.getDialogWrapper().close(DialogWrapper.OK_EXIT_CODE);
             }, incident);
         fb.addComponent(foo);
