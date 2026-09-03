@@ -7,7 +7,6 @@
 ### Added
 
 ### Changed
-- Upgrading IntelliJ from 2026.2.1 to 2026.2.2
 
 ### Deprecated
 
@@ -16,6 +15,12 @@
 ### Fixed
 
 ### Security
+
+## [4.1.3] - 2026-09-03
+
+### Changed
+
+- Upgrading IntelliJ from 2026.2.1 to 2026.2.2
 
 ## [4.1.2] - 2026-08-11
 
@@ -499,7 +504,8 @@
 
 - Initial release.
 
-[Unreleased]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v4.1.2...HEAD
+[Unreleased]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v4.1.3...HEAD
+[4.1.3]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v4.1.2...v4.1.3
 [4.1.2]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v4.1.1...v4.1.2
 [4.1.1]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v4.1.0...v4.1.1
 [4.1.0]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v4.0.4...v4.1.0
@@ -572,8 +578,8 @@
 [0.2.1]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v0.0.5...v0.1.0
-[0.0.5]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/848a0c422e4b82e148beeead48c2957539856cb8...v0.0.5
-[0.0.4]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/9b2d0b63abba86fbe3d39e857e5581554ab265ec...848a0c422e4b82e148beeead48c2957539856cb8
-[0.0.3]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/1269612d4c67fa0af713ff3e5a0abf9676675d36...9b2d0b63abba86fbe3d39e857e5581554ab265ec
-[0.0.2]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/7f55e0f5a4bcda2e812d284e80f0b2a751b85f01...1269612d4c67fa0af713ff3e5a0abf9676675d36
-[0.0.1]: https://github.com/ChrisCarini/iris-jetbrains-plugin/commits/7f55e0f5a4bcda2e812d284e80f0b2a751b85f01
+[0.0.5]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v0.0.4...v0.0.5
+[0.0.4]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v0.0.3...v0.0.4
+[0.0.3]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v0.0.2...v0.0.3
+[0.0.2]: https://github.com/ChrisCarini/iris-jetbrains-plugin/compare/v0.0.1...v0.0.2
+[0.0.1]: https://github.com/ChrisCarini/iris-jetbrains-plugin/commits/v0.0.1
